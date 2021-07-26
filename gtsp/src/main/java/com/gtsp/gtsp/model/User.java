@@ -30,6 +30,8 @@ public class User {
     @Email
     @NotEmpty(message = "Email is required")
     private String email;
+    @NotEmpty(message = "Zipcode is required")
+    private long zipCode;
     private Instant created;
     private boolean enabled;
 

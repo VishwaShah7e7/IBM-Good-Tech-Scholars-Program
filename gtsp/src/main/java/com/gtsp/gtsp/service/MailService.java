@@ -10,6 +10,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -29,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MailService {
 	private final JavaMailSender mailSender;
     private final MailContentBuilder mailContentBuilder;
+    //Logger logger = LoggerFactory.getLogger(MailService.class);
 
     @Async
     void sendMail(NotificationEmail notificationEmail) {
@@ -79,11 +82,13 @@ public class MailService {
 
             // Now set the actual message
             message.setText(notificationEmail.getBody());
+            //logger.debug("sending...");
 
-            System.out.println("sending...");
+           
             // Send message
             Transport.send(message);
-            System.out.println("Sent message successfully....");
+            //logger.debug("Sent message successfully...");
+            
         } catch (MessagingException e) {
         	log.error("Exception occurred when sending mail", e);
             throw new GtspException("Exception occurred when sending mail to " + notificationEmail.getRecipient(), e);

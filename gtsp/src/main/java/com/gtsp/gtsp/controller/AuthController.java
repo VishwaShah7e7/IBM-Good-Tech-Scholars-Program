@@ -18,6 +18,8 @@ import lombok.AllArgsConstructor;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 
 
@@ -27,10 +29,18 @@ import org.springframework.http.MediaType;
 public class AuthController {
 	
 	    private final AuthService authService;
+	    //Logger logger = LoggerFactory.getLogger(AuthController.class);
+	    
+	    @GetMapping("/")
+	    public String home() {
+	    	//logger.debug("Welcomed the user ");
+	        return ("<h1>Welcome</h1>");
+	    }
+	    
 		//@PostMapping("/signup")
 	    @RequestMapping(value= {"/signup"}, method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
-			System.out.println("Email : " +  registerRequest.getEmail());
+	    	//logger.debug("Email : " +  registerRequest.getEmail());
 			authService.signup(registerRequest);
 			return new ResponseEntity<>("User Registration Successful",OK);
 		}
@@ -45,4 +55,6 @@ public class AuthController {
 	    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
 	        return authService.login(loginRequest);
 	    }
+	    
+	    
 }

@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.gtsp.gtsp.controller.AuthController;
 import com.gtsp.gtsp.dto.AuthenticationResponse;
 import com.gtsp.gtsp.dto.LoginRequest;
 import com.gtsp.gtsp.dto.RegisterRequest;
@@ -43,6 +46,7 @@ public class AuthService {
 	private final AuthenticationManager authenticationManager;
 	private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    //Logger logger = LoggerFactory.getLogger(AuthService.class);
 	
 	@Transactional
 	public void signup(RegisterRequest registerRequest) {
@@ -54,12 +58,12 @@ public class AuthService {
 		user.setEnabled(false);
 		
 		userRepository.save(user);	
-		System.out.println("User saved successfully");
+		//logger.info("User saved successfully");
 		String token = generateVerificationToken(user);
 		mailService.sendMail(new NotificationEmail("Please Activate your Account",
                 user.getEmail(), "Thank you for signing up to IBM Good Tech Scholar Program, " +
                 "please click on the below url to activate your account : " +
-                "http://localhost:8080/api/auth/accountVerification/" + token));
+                "http://localhost:8085/api/auth/accountVerification/" + token));
 	}
 	
 	private String generateVerificationToken(User user){

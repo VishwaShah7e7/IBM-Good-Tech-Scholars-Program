@@ -2,12 +2,15 @@ package com.gtsp.gtsp.service;
 
 
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +43,7 @@ public class NotificationService {
 			
 		User user = getPost(user_id);	
 		double outsideTemp = getOutsideTemp(user.getZipCode());
-		int insideTemp = 77;
+		int insideTemp = getInsideTemp();
 		int setTemp = 76; // set by the user using our application. 
 		int difference = 5;
 		
@@ -98,6 +101,19 @@ public class NotificationService {
 	    Map<String,Object> map = new Gson().fromJson(str,new 
 	TypeToken<HashMap<String,Object>> () {}.getType());
 	    return map;
+	}
+	
+	private int getInsideTemp() {
+		try {
+			File fr = new File("/Users/vishwashah/Desktop/test.txt");
+			Scanner sc = new Scanner(fr);
+			while (sc.hasNextLine()) {
+				return Integer.valueOf(sc.nextLine());
+			}
+		} catch (IOException e) {
+			System.err.println("FileCopy: " + e);
+		}
+		return 0;
 	}
 	
 

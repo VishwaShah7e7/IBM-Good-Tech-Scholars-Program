@@ -9,16 +9,19 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gtsp.gtsp.controller.AuthController;
 import com.gtsp.gtsp.dto.AuthenticationResponse;
 import com.gtsp.gtsp.dto.LoginRequest;
+import com.gtsp.gtsp.dto.RefreshTokenRequest;
 import com.gtsp.gtsp.dto.RegisterRequest;
 import com.gtsp.gtsp.exception.GtspException;
 import com.gtsp.gtsp.model.NotificationEmail;
@@ -56,6 +59,7 @@ public class AuthService {
 		user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 		user.setCreated(Instant.now());
 		user.setEnabled(false);
+		user.setZipCode(registerRequest.getZipCode());
 		
 		userRepository.save(user);	
 		//logger.info("User saved successfully");
@@ -95,12 +99,42 @@ public class AuthService {
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
-        return new AuthenticationResponse(token,loginRequest.getUsername());
-        /*return AuthenticationResponse.builder()
+        return AuthenticationResponse.builder()
                 .authenticationToken(token)
                 .refreshToken(refreshTokenService.generateRefreshToken().getToken())
                 .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                 .username(loginRequest.getUsername())
-                .build();*/
+                .build();
 	}
+	
+	public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
+    }
+
+    public boolean isLoggedIn() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
+    
+    public void verifyAccount(String token) {
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        fetchUserAndEnable(verificationToken.orElseThrow(() -> new GtspException("Invalid Token")));
+    }
+    
+    @Transactional
+    public User getCurrentUser() {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
+    }
+    
+    
 }

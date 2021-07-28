@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gtsp.gtsp.dto.AuthenticationResponse;
 import com.gtsp.gtsp.dto.LoginRequest;
+import com.gtsp.gtsp.dto.RefreshTokenRequest;
 import com.gtsp.gtsp.dto.RegisterRequest;
 import com.gtsp.gtsp.service.AuthService;
+import com.gtsp.gtsp.service.RefreshTokenService;
 
 import lombok.AllArgsConstructor;
 
 import static org.springframework.http.HttpStatus.OK;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +33,7 @@ import org.springframework.http.MediaType;
 public class AuthController {
 	
 	    private final AuthService authService;
+	    private final RefreshTokenService refreshTokenService;
 	    //Logger logger = LoggerFactory.getLogger(AuthController.class);
 	    
 	    @GetMapping("/")
@@ -54,6 +59,17 @@ public class AuthController {
 	    @PostMapping("/login")
 	    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
 	        return authService.login(loginRequest);
+	    }
+	    
+	    @PostMapping("/refresh/token")
+	    public AuthenticationResponse refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+	        return authService.refreshToken(refreshTokenRequest);
+	    }
+
+	    @PostMapping("/logout")
+	    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+	        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+	        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
 	    }
 	    
 	    

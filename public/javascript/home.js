@@ -10,30 +10,7 @@ class Home extends HTMLElement {
         const shadow = this.attachShadow({
                 mode: 'open'
             })
-            .appendChild(templateContent.cloneNode(true));            
-    }
-
-    generateTransaction(access_token, shadowRoot, tile){
-        var limit = tile.detail.eventData.limit * 100;
-        var base =  tile.detail.eventData.base * 100;
-
-        var charge = Math.floor(Math.random() * (limit - base + 1)) + base;
-        charge=charge/100;
-        charge=charge.toFixed(2);
-      
-        var entity = tile.detail.eventData.name.toUpperCase()
-      
-        console.log('CREATING A CREDIT CARD CHARGE OF $' + charge + ' ON ' + entity );
-
-        createTransaction(access_token, entity, entity, charge,
-            (success) => {
-                if (success) {
-                    let text = 'CREDIT CARD $' + charge + ' ON ' + entity ;
-                    this.showNotification(shadowRoot, text)
-                } else {
-                    this.showNotification(shadowRoot, "Failed creating transaction. Please check logs")
-                }
-        })
+            .appendChild(templateContent.cloneNode(true));
     }
 
     showNotification(shadowRoot, notificationText) {
@@ -51,7 +28,7 @@ class Home extends HTMLElement {
     }
 
     connectedCallback() {
-       
+
         var sr = this.shadowRoot;
 
         var tiles = sr.getElementById('APPTILES');
@@ -60,10 +37,10 @@ class Home extends HTMLElement {
 
         tiles.addEventListener('APPTILE', e => {
             console.log('HOMESCREEN RECIEVED EVENT FROM TILE: ' + e.detail.eventData.name.toLocaleUpperCase());
-            
+
             switch(e.detail.eventData.name){
 
-                case 'bank':
+                case 'thermi':
                     sr.host.parentElement.innerHTML = '<welcome-element mode="' + this.mode + '"></welcome-element>';
                     break;
 
@@ -72,7 +49,7 @@ class Home extends HTMLElement {
                     if (access_token != "") {
                         homescreen.generateTransaction(access_token, sr, e)
                     } else {
-                        homescreen.showNotification(sr, 'Please log in using the Bank app.')
+                        homescreen.showNotification(sr, 'This app is unavailable.')
                     }
                     break;
             }

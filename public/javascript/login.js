@@ -1,7 +1,7 @@
 class Login extends HTMLElement {
 
     static get observedAttributes() {
-        return ['firstname', 'surname'];
+        return ['username', 'email', 'location'];
       }
 
     clickCheck(){
@@ -18,9 +18,10 @@ class Login extends HTMLElement {
 
         /* where to make a data call for points/events */
         let sr = this.shadowRoot
-        var firstname = sr.getElementById('firstname').innerHTML;
-        var surname = sr.getElementById('surname').innerHTML;
         var email = sr.getElementById('email').innerHTML;
+        var username = sr.getElementById('username').innerHTML;
+        var password = sr.getElementById('password').innerHTML;
+        var location = sr.getElementById('location').innerHTML;
 
         var phoneview = document.getElementById("phoneview");
         var mobileview = phoneview.getMobileView();
@@ -33,13 +34,13 @@ class Login extends HTMLElement {
         element.setAttribute("status", "Creating account...")
         mobileview.appendChild(element)
 
-        createAccountAppId(firstname, surname, firstname + "" + surname, email, (json) => {
+        createAccountAppId(email, username, password, location, (json) => {
+            console.log("createAccountAppId");
             console.log(json)
             if (json.status == "user created successfully") {
 
                 element.setAttribute("status", "Logging in...")
-                let usernamepassword = firstname + "" + surname
-                loginWithAppId(usernamepassword, usernamepassword, (jsonWithTokens) => {
+                loginWithAppId(username, password, (jsonWithTokens) => {
                     // when creation of account
                     // and login complete, create the profile
                     element.setAttribute("status", "Creating user profile...")
@@ -52,7 +53,7 @@ class Login extends HTMLElement {
                     })
                     // edge case when unable to sign in
                 })
-            } else { 
+            } else {
                 // edge case when failed to register with app id
                 element.setAttribute("status", json.message)
                 setTimeout(() => {

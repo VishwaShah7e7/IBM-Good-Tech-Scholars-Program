@@ -2,53 +2,37 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Example Bank - Microservice Example on OpenShift V4</title>
+    <title>Thermi</title>
     <meta name="description" content="A simulated mobile app that triggers a JEE backend on Kube">
     <meta name="author" content="Anton McConville">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style/loyalty.css?v=1.0">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./images/thermilogotransparent.png" type="image/x-icon">
+    <link rel="icon" href="./images/thermilogotransparent.png" type="image/x-icon">
 </head>
 
 <body class="loyalty">
     <div class="container">
-        <div class="navigation">
-            <div class="titlebar">
-                <div class="logo"><img class="icon" src="./images/loyaltylogo.svg"></div>
-                <div class="title">Example Bank</div>
-            </div>
-            <div class="about">A SIMULATED, INTERACTIVE MOBILE PHONE
-                APP COMMUNICATING WITH JEE MICROPROFILE
-                MICROSERVICES RUNNING ON AN IBM CLOUD
-                OPENSHIFT 4 INSTANCE.
-            </div>
-            <asset-element link="https://developer.ibm.com/articles/intro-to-openshift-4/" assetimage="./images/lightbulb.svg" text="Background"></asset-element>
-            <asset-element link="https://github.com/IBM/loyalty#architecture" assetimage="./images/cloud.svg" text="Cloud Architecture"></asset-element>
-            <asset-element link="https://developer.ibm.com/articles/threat-modeling-microservices-openshift-4/" assetimage="./images/threat.svg" text="Introduction to threat modelling"></asset-element>
-            <asset-element link="https://developer.ibm.com/tutorials/operator-hub-openshift-4-operators-ibm-cloud/" assetimage="./images/flash.svg" text="Fun with Operators"></asset-element>
-            <asset-element link="https://developer.ibm.com/patterns/privacy-backend-loyalty-app-openshift-4/" assetimage="./images/secure.svg"
-                text="Build a microservice-based backend on OpenShift 4"></asset-element>
-            <asset-element link="https://developer.ibm.com/patterns/microservices-with-the-openshift-service-mesh/" assetimage="./images/istio.svg" text="Scaling secure communications with service mesh"></asset-element>
-            <asset-element link="https://developer.ibm.com/tutorials/build-serverless-nodejs-applications-with-the-openshift-serverless-operator/" assetimage="./images/programming.svg" text="Extending apps with OpenShift Serverless"></asset-element>
-            <asset-element link="https://developer.ibm.com/tutorials/tekton-pipeline-deploy-a-mobile-app-backend-openshift-4/" assetimage="./images/deploy-rules.svg" text="Building OpenShift Pipelines">
-            </asset-element>
-            <!-- asset-element assetimage="./images/admin.svg" text="Admin view"></asset-element> -->
+      <div class="navigation">
+        <div class="titlebar">
+          <div class="logo"><img class="icon" src="./images/thermilogo.png"></div>
+          <div class="title">Thermi</div>
         </div>
-        <phone-element id="phoneview"></phone-element>      
-        <script>
-            var supportTest = 'customElements' in window;
-            console.log('supports web components = ' + supportTest);
-            if(supportTest == false){
-                window.alert('If you see this alert, it means this example is not compatible with your browser. This example uses Web Components - a technology supported in the latest versions of Firefox, Chrome and Safari. Please update your browser to the latest release.');
-            }
-        </script>      
-        </div>
+      </div>
+      <phone-element id="phoneview"></phone-element>
+      <script>
+          var supportTest = 'customElements' in window;
+          console.log('supports web components = ' + supportTest);
+          if(supportTest == false){
+            window.alert('If you see this alert, it means this example is not compatible with your browser. This example uses Web Components - a technology supported in the latest versions of Firefox, Chrome and Safari. Please update your browser to the latest release.');
+          }
+      </script>
     </div>
+  </div>
 </body>
 
 <template id="phone">
-    <style>   
+    <style>
     .frame {
     height: 100%;
     width: 300px;
@@ -60,7 +44,7 @@
     box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
     /* border-radius: 20px;
     background: #FFFFFF;
-    box-shadow:  31px 31px 71px #7d7d7d, 
+    box-shadow:  31px 31px 71px #7d7d7d,
                  -31px -31px 71px #ffffff; */
     }
 
@@ -136,7 +120,7 @@
     outline:none;
 }
     </style>
-   
+
     <div class="frame">
         <div class="sensors">
             <div class="sensor"></div>
@@ -155,7 +139,7 @@
 </template>
 
 <template id="tile">
-    <style>  
+    <style>
     .tile{
         height: 100px;
         width: 100px;
@@ -187,10 +171,9 @@
 </template>
 
 <template id="homescreen">
-    <style>  
+    <style>
 
     .homescreen{
-
     }
 
     .apptiles{
@@ -229,15 +212,17 @@
     </style>
     <div class="homescreen">
         <div id="notificationarea" class="notificationarea">
-            <!-- <div class="notification">THIS IS A TEST</div> -->
+            <div class="notification">THIS IS A TEST</div>
         </div>
-        <div id="APPTILES" class="apptiles">
-            <tile-element tileimage="./images/bank.svg" tiletext="bank"></tile-element>
-            <tile-element tileimage="./images/rideshare.svg" tiletext="ride" base=10 ceiling=30></tile-element>
-            <tile-element tileimage="./images/cafe.svg" tiletext="cafe" base=5 ceiling=20></tile-element>  
-            <tile-element tileimage="./images/groceries.svg" tiletext="groceries" base=15 ceiling=200></tile-element>
-            <tile-element tileimage="./images/restaurant.svg" tiletext="delivery" base=20 ceiling=60></tile-element>
-            <tile-element tileimage="./images/fuel.svg" tiletext="fuel" base=30 ceiling=100></tile-element>
+        <div class="page">
+          <div id="APPTILES" class="apptiles">
+              <tile-element tileimage="./images/thermi.png" tiletext="thermi"></tile-element>
+              <tile-element tileimage="./images/restaurant.svg" tiletext="blank" base=10 ceiling=30></tile-element>
+              <tile-element tileimage="./images/rideshare.svg" tiletext="blank" base=10 ceiling=30></tile-element>
+              <tile-element tileimage="./images/groceries.svg" tiletext="blank" base=10 ceiling=30></tile-element>
+              <tile-element tileimage="./images/bank.svg" tiletext="blank" base=10 ceiling=30></tile-element>
+              <tile-element tileimage="./images/cafe.svg" tiletext="blank" base=10 ceiling=30></tile-element>
+          </div>
         </div>
     </div>
 </template>
@@ -336,18 +321,17 @@
         }
     </style>
     <div class="welcomeview">
-        <div class="viewtitle">EXAMPLE BANK</div>
+        <div class="viewtitle">Thermi</div>
         <div class="city">
-            <img class="citylogo" src="../images/banklogo.svg">
+            <img class="citylogo" src="./images/thermilogo.png">
             <!-- <div class="cityname">New York</div> -->
-        </div>
-        <select class="usernameinput" id="usernameselect">
-        </select>
+          <label>Username</label>
+          <input id="usernameinput">
+          <label>Password</label>
+          <input type="password" id="passwordinput">
         <button class="signin" id="signin">SIGN IN</button>
         <div class="or">OR</div>
         <button class="signup" onclick="loyalty.signup()">SIGN UP</button>
-        <div class="blurb">THIS IS A SIMULATED BANKING APP TO EXPLORE PRIVACY CONSIDERATIONS WHEN DEVELOPING CLOUD
-            APPLICATIONS. FOR DEMO PURPOSES ONLY</div>
     </div>
 </template>
 
@@ -452,46 +436,44 @@
             width: 160px;
         }
     </style>
+    <div class="homescreen">
+        <div id="notificationarea" class="notificationarea">
+            <div class="notification">THIS IS A TEST</div>
+        </div>
+    </div>
     <div class="loginview">
         <div class="viewtitle">Create Account</div>
         <div class="identity">
             <div class="identityblock">
-                <label class="idpart">First Name</label>
-                <div class="idinfo" id="firstname" contenteditable="true"></div>
-            </div>
-
-            <div class="identityblock">
-                <label class="idpart">Surname</label>
-                <div class="idinfo" id="surname" contenteditable="true"></div>
-            </div>
-
-            <div class="identityblock">
                 <label class="idpart">Email</label>
-                <div class="idinfo" id="email"></div>
+                <div class="idinfo" id="email" contenteditable="true"></div>
             </div>
 
             <div class="identityblock">
-                <label class="idpart">username</label>
-                <div class="idinfo" id="username"></div>
+                <label class="idpart">Username</label>
+                <div class="idinfo" id="username" contenteditable="true"></div>
             </div>
 
             <div class="identityblock">
                 <label class="idpart">Password</label>
-                <div class="idinfo" id="password"></div>
+                <div class="idinfo" id="password" contenteditable="true"></div>
+            </div>
+
+            <div class="identityblock">
+                <label class="idpart">Location</label>
+                <div class="idinfo" id="location" contenteditable="true"></div>
             </div>
         </div>
 
         <div class="gdprcheck">
             <input class="checkbox" type="checkbox" id="gdprcheck" name="gdpr" value="false">
-            <label class="checktext">I CONSENT TO MY DATA BEING USED TO GATHER METRICS ABOUT EXAMPLE LOYALTY EVENTS.
-                EXAMPLE LOYALTY WILL NOT SHARE THIS DATA.</label>
+            <label class="checktext">I CONSENT TO MY HVAC DATA BEING USED TO GATHER METRICS.
+              THERMI WILL NOT SHARE THIS DATA.</label>
         </div>
 
-        <button class="signup" id="createAccountButton" disabled=true>Create Account</button>
+        <button class="signup" id="createAccountButton" disabled="true">Create Account</button>
 
-        <div class="tos">BY CREATING AN ACCOUNT
-            YOU AGREE TO EXAMPLE
-            LOYALTY’S TERMS OF SERVICE</div>
+        <div class="tos">BY CREATING AN ACCOUNT YOU AGREE TO THERMI'S TERMS OF SERVICE</div>
     </div>
 </template>
 
@@ -551,7 +533,7 @@
             width: 120px;
             height: 28px;
             border-radius: 4px;
-            color: var(--loyalty-sensor-color);
+            color: var(--loyalty-button-color);
             font-weight: bold;
             border: 2px solid var(--loyalty-sensor-color);
             margin: 10px;
@@ -675,7 +657,7 @@
     </style>
 
     <div class="accountview">
-       
+
         <div class="account">
             <div class="viewtitle">ACCOUNT</div>
             <div class="accountdetails">

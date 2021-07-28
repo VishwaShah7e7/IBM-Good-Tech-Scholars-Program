@@ -1,5 +1,7 @@
 package com.gtsp.gtsp.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DeviceRegistrationService {
 
 	private final DeviceRepository deviceRepository;
-    //private final SubredditMapper subredditMapper;
+    //private final DeviceMapper deviceMapper;
 
     @Transactional
     public DeviceDto save(DeviceDto deviceDto) {
@@ -30,15 +32,15 @@ public class DeviceRegistrationService {
     	return Device.builder().deviceType(deviceDto.getDeviceType()).description(deviceDto.getDescription()).build();
     }
 
-    /*@Transactional(readOnly = true)
-    public List<SubredditDto> getAll() {
-        return subredditRepository.findAll()
+    /*@Transactional
+    public List<DeviceDto> getAllDevices() {
+        return deviceRepository.findAll()
                 .stream()
                 .map(subredditMapper::mapSubredditToDto)
                 .collect(toList());
     }
 
-    public SubredditDto getSubreddit(Long id) {
+    /*public SubredditDto getSubreddit(Long id) {
         Subreddit subreddit = subredditRepository.findById(id)
                 .orElseThrow(() -> new SpringRedditException("No subreddit found with ID - " + id));
         return subredditMapper.mapSubredditToDto(subreddit);

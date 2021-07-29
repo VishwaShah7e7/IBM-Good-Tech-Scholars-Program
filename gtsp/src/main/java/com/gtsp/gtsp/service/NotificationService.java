@@ -44,25 +44,25 @@ public class NotificationService {
 		User user = getPost(user_id);	
 		double outsideTemp = getOutsideTemp(user.getZipCode());
 		int insideTemp = getInsideTemp();
-		int setTemp = 76; // set by the user using our application. 
+		double setTemp = user.getDesiredTemp();
 		int difference = 5;
 		
 
 		
 		if(insideTemp == setTemp && Math.abs(setTemp - outsideTemp) < difference) {
-			return new NotificationResponse(user_id,"Do nothing");
+			return new NotificationResponse(user_id,"Do nothing", outsideTemp, setTemp);
 		}
 		if (insideTemp >= setTemp) {
 			if (Math.abs(setTemp - outsideTemp) > difference) {
-				return new NotificationResponse(user_id,"Turn on HVAC and let the room cool");
+				return new NotificationResponse(user_id,"Turn on HVAC and let the room cool", outsideTemp, setTemp);
 			} else {
-				return new NotificationResponse(user_id,"Open the window. Let the room heat to DT");
+				return new NotificationResponse(user_id,"Open the window. Let the room heat to DT", outsideTemp, setTemp);
 			}
 		} else {
 			if (Math.abs(setTemp - outsideTemp) > difference) {
-				return new NotificationResponse(user_id,"Turn on heat and let the room heat until DT");
+				return new NotificationResponse(user_id,"Turn on heat and let the room heat until DT", outsideTemp, setTemp);
 			} else {
-				return new NotificationResponse(user_id,"Wear a jacket");
+				return new NotificationResponse(user_id,"Wear a jacket", outsideTemp, setTemp);
 			}
 		} 
 		

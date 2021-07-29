@@ -32,6 +32,7 @@ public class User {
     private String email;
     @NotEmpty(message = "Zipcode is required")
     private long zipCode;
+    private double desiredTemp;
     private Instant created;
     private boolean enabled;
 

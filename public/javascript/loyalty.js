@@ -4,7 +4,7 @@ class Loyalty {
 
     constructor() {
 
-        console.log('INITIALIZING LOYALTY APP');      
+        console.log('INITIALIZING LOYALTY APP');
 
         var phoneview = document.getElementById("phoneview");
         this.mobileview = phoneview.getMobileView();
@@ -29,7 +29,7 @@ class Loyalty {
         //         let element = document.createElement('transactions-element')
         //         element.setAttribute('name', fullname);
         //         element.setAttribute('mode', this.mode);
-        //         this.mobileview.appendChild(element); 
+        //         this.mobileview.appendChild(element);
 
         //         localStorage.setItem("loyaltyname", fullname);
         //         console.log(phoneview)
@@ -46,15 +46,15 @@ class Loyalty {
         this.mobileview.innerHTML = "";
 
         var element = document.createElement('login-element');
-        getRandomUser((firstname, surname, password, email) => {
-            element.setAttribute('firstname', firstname);
-            element.setAttribute('surname', surname);
-            element.setAttribute('password', password);
-            element.setAttribute('email', email);
-            element.setAttribute('username', firstname + surname);
+        // getRandomUser((firstname, surname, password, email) => {
+        //     element.setAttribute('firstname', firstname);
+        //     element.setAttribute('surname', surname);
+        //     element.setAttribute('password', password);
+        //     element.setAttribute('email', email);
+        //     element.setAttribute('username', firstname + surname);
 
             this.mobileview.appendChild(element);
-        })
+        // })
 
         /* same as mobileview.innerHTML =
         '<login-element firstname="John surname="Lennon" password="######" username="john@email.com"></login-element>' */

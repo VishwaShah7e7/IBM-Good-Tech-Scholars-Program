@@ -1,8 +1,8 @@
 class Welcome extends HTMLElement {
 
     constructor() {
-        
-        super();        
+
+        super();
 
         console.log('INITIALIZING WELCOME VIEW');
 
@@ -11,15 +11,15 @@ class Welcome extends HTMLElement {
 
         const shadow = this.attachShadow({mode: 'open'})
           .appendChild(templateContent.cloneNode(true));
-       
+
     }
 
     connectedCallback() {
 
         let sr = this.shadowRoot;
 
-        let selectUserInput = sr.getElementById("usernameselect")
-        let signinButton = sr.getElementById("signin")
+        let usernameInput = sr.getElementById("usernameinput")
+        let passwordInput = sr.getElementById("passwordinput")
 
         var phoneview = document.getElementById("phoneview");
         var mobileview = phoneview.getMobileView();
@@ -28,20 +28,10 @@ class Welcome extends HTMLElement {
             let id_object = loyalty.parseJwt(loyalty.getCookie('id_token'))
             console.log(id_object)
 
-            var accountinfo = {
-                firstname: id_object.given_name,
-                surname: id_object.family_name
-            }
-
-            var fullname = accountinfo.firstname + ' ' + accountinfo.surname
-
             mobileview.innerHTML = "";
 
             let element = document.createElement('transactions-element')
-            element.setAttribute('name', fullname);
-            mobileview.appendChild(element); 
-
-            localStorage.setItem("loyaltyname", fullname);
+            mobileview.appendChild(element);
 
             phoneview.showNavigation();
         } else {
@@ -55,14 +45,14 @@ class Welcome extends HTMLElement {
         }
 
         signinButton.addEventListener("click", e => {
-            this.signin(selectUserInput.value, selectUserInput.value)
+            this.signin(usernameInput.value, passwordInput.value)
         })
     }
 
 
     signin(username, password) {
         let sr = this.shadowRoot;
-        
+
         var mobileview = sr.host.parentElement;
         mobileview.innerHTML = "";
 
@@ -78,20 +68,10 @@ class Welcome extends HTMLElement {
             let id_object = loyalty.parseJwt(jsonWebToken.id_token)
             console.log(id_object)
 
-            var accountinfo = {
-                firstname: id_object.given_name,
-                surname: id_object.family_name
-            }
-
-            var fullname = accountinfo.firstname + ' ' + accountinfo.surname
-
             mobileview.innerHTML = "";
 
             let element = document.createElement('transactions-element')
-            element.setAttribute('name', fullname);
             mobileview.appendChild(element);
-
-            localStorage.setItem("loyaltyname", fullname);
 
             phoneview.showNavigation();
             // edge case when unable to sign in

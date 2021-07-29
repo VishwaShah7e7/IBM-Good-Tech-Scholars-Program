@@ -1,0 +1,32 @@
+version: '3.6'
+
+services: 
+
+  mysql:
+    image: mysql
+    platform: linux/amd64
+    restart: always
+    ports: 
+      - 3307:3307
+    environment: 
+        MYSQL_ROOT_HOST: localhost
+        MYSQL_ROOT_PASSWORD: rootroot
+        MYSQL_DATABASE: GTSP2
+        MYSQL_USER: user
+        MYSQL_PASSWORD: rootroot
+
+    volumes: 
+    - ./init:/docker-entrypoint-initdb.d
+    - app_db:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports: 
+      - 8080:8080
+volumes: 
+  app_db:
+
+networks: 
+  nt_mysql:
+    driver: bridge

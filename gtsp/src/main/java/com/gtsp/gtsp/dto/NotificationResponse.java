@@ -11,6 +11,8 @@ public class NotificationResponse {
 
 	private long userId;
 	private String message;
+	private double outSideTemp;
+	private double desiredTemp;
 	
 	
 	

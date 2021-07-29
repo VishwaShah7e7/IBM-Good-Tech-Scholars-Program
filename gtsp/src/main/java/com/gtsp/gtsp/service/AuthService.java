@@ -60,6 +60,7 @@ public class AuthService {
 		user.setCreated(Instant.now());
 		user.setEnabled(false);
 		user.setZipCode(registerRequest.getZipCode());
+		user.setDesiredTemp(registerRequest.getDesiredTemp());
 		
 		userRepository.save(user);	
 		//logger.info("User saved successfully");

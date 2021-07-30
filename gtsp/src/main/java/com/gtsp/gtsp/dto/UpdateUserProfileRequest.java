@@ -7,13 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificationResponse {
-
+public class UpdateUserProfileRequest {
 	private String userName;
-	private String message;
-	private double outSideTemp;
+	private long zipCode;
 	private double desiredTemp;
-	
-	
-	
 }

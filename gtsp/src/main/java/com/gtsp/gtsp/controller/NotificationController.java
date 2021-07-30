@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gtsp.gtsp.dto.NotificationResponse;
+import com.gtsp.gtsp.model.User;
+import com.gtsp.gtsp.service.AuthService;
 import com.gtsp.gtsp.service.NotificationService;
 
 import lombok.AllArgsConstructor;
@@ -22,13 +24,12 @@ import lombok.AllArgsConstructor;
 public class NotificationController {
 	
 	 private final NotificationService notificationService;
+	 private final AuthService authService;
 	
 	@GetMapping
-    public NotificationResponse getRecommandation(@PathParam(value = "user_id") long user_id) {
-		System.out.println("Passed userID: " +  user_id);
-		return notificationService.getRecommandation(user_id);
-        /*return ResponseEntity.status(HttpStatus.OK)
-                .body(notificationService.getRecommandation(user_id));*/
+    public NotificationResponse getRecommandation() {
+		User user = authService.getCurrentUser();
+		return notificationService.getRecommandation(user);
 	}
 
 }

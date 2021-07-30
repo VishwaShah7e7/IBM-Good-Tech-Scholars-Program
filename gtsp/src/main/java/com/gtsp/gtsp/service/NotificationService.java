@@ -39,9 +39,8 @@ public class NotificationService {
         return user;
     }
 	
-	public NotificationResponse getRecommandation(long user_id) {
-			
-		User user = getPost(user_id);	
+	public NotificationResponse getRecommandation(User user) {
+				
 		double outsideTemp = getOutsideTemp(user.getZipCode());
 		int insideTemp = getInsideTemp();
 		double setTemp = user.getDesiredTemp();
@@ -50,19 +49,19 @@ public class NotificationService {
 
 		
 		if(insideTemp == setTemp && Math.abs(setTemp - outsideTemp) < difference) {
-			return new NotificationResponse(user_id,"Do nothing", outsideTemp, setTemp);
+			return new NotificationResponse(user.getUsername(),"Do nothing", outsideTemp, setTemp);
 		}
 		if (insideTemp >= setTemp) {
 			if (Math.abs(setTemp - outsideTemp) > difference) {
-				return new NotificationResponse(user_id,"Turn on HVAC and let the room cool", outsideTemp, setTemp);
+				return new NotificationResponse(user.getUsername(),"Turn on HVAC and let the room cool", outsideTemp, setTemp);
 			} else {
-				return new NotificationResponse(user_id,"Open the window. Let the room heat to DT", outsideTemp, setTemp);
+				return new NotificationResponse(user.getUsername(),"Open the window. Let the room heat to DT", outsideTemp, setTemp);
 			}
 		} else {
 			if (Math.abs(setTemp - outsideTemp) > difference) {
-				return new NotificationResponse(user_id,"Turn on heat and let the room heat until DT", outsideTemp, setTemp);
+				return new NotificationResponse(user.getUsername(),"Turn on heat and let the room heat until DT", outsideTemp, setTemp);
 			} else {
-				return new NotificationResponse(user_id,"Wear a jacket", outsideTemp, setTemp);
+				return new NotificationResponse(user.getUsername(),"Wear a jacket", outsideTemp, setTemp);
 			}
 		} 
 		
